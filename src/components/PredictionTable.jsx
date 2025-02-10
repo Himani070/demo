@@ -6,14 +6,24 @@ const PredictionTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const fetchData = async () => {
+    const vehicleId = localStorage.getItem("vehicleId") || "";
+    const predictionDate = localStorage.getItem("predictionDate") || "";
+
+    try {
+      const response = await axios.get("http://localhost:5000/api/predictions", {
+        params: { vehicleId, predictionDate }
+      });
+      setPredictions(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
-    // Clear stored filters on refresh to reset to full table
-    localStorage.removeItem("vehicleId");
-    localStorage.removeItem("predictionDate");
+    fetchData(); // Fetch on page load
 
-    fetchData();
-
-    // Listen for storage changes
+    // Listen for filter changes from PredictResults
     const handleStorageChange = () => fetchData();
     window.addEventListener("storage", handleStorageChange);
 
@@ -22,13 +32,11 @@ const PredictionTable = () => {
     };
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/predictions");
-      setPredictions(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+  const getLoadStatusClass = (status) => {
+    if (status === "No Load") return "tload-status no-load";
+    if (status === "Part Load") return "tload-status part-load";
+    if (status === "Full Load") return "tload-status full-load";
+    return "tload-status"; // Default class
   };
 
   // Pagination logic
@@ -37,14 +45,6 @@ const PredictionTable = () => {
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const currentData = predictions.slice(startIndex, endIndex);
-
-  // Function to get load status class
-  const getLoadStatusClass = (status) => {
-    if (status === "No Load") return "tload-status no-load";
-    if (status === "Part Load") return "tload-status part-load";
-    if (status === "Full Load") return "tload-status full-load";
-    return "tload-status"; // Default class
-  };
 
   return (
     <div className="form-section">
