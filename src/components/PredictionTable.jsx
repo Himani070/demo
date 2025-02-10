@@ -6,7 +6,7 @@ const PredictionTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const fetchFilteredData = async () => {
+  const fetchData = async () => {
     const vehicleId = localStorage.getItem("vehicleId") || "";
     const predictionDate = localStorage.getItem("predictionDate") || "";
 
@@ -21,10 +21,10 @@ const PredictionTable = () => {
   };
 
   useEffect(() => {
-    fetchFilteredData(); // Fetch on load
+    fetchData(); // Fetch on page load
 
     // Listen for filter changes from PredictResults
-    const handleStorageChange = () => fetchFilteredData();
+    const handleStorageChange = () => fetchData();
     window.addEventListener("storage", handleStorageChange);
 
     return () => {

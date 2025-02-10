@@ -1,18 +1,24 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 function PredictResults() {
   const [vehicleId, setVehicleId] = useState("");
   const [predictionDate, setPredictionDate] = useState("");
 
-  const handleSubmit = async (event) => {
+  useEffect(() => {
+    // Reset filter on page refresh
+    localStorage.removeItem("vehicleId");
+    localStorage.removeItem("predictionDate");
+    window.dispatchEvent(new Event("storage")); // Notify table to reset
+  }, []);
+
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     // Save filter values to localStorage
     localStorage.setItem("vehicleId", vehicleId);
     localStorage.setItem("predictionDate", predictionDate);
-
-    // Notify the table to re-fetch data (can use event dispatch or state management)
+    
+    // Notify the table to fetch filtered data
     window.dispatchEvent(new Event("storage"));
 
     alert("Filtering data...");
@@ -34,8 +40,9 @@ function PredictResults() {
 
         <label>Prediction Date</label>
         <input
-          type="date"
+          type="text"
           className="date-input"
+          placeholder="DD/MM/YYYY, HH:MM:SS"
           value={predictionDate}
           onChange={(e) => setPredictionDate(e.target.value)}
           required

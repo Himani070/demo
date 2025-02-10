@@ -22,8 +22,8 @@ app.get("/api/predictions", (req, res) => {
 
   if (predictionDate) {
     filteredData = filteredData.filter(entry => {
-      const entryDate = new Date(entry["Prediction Date"]).toISOString().split("T")[0];
-      return entryDate === predictionDate;
+      const formattedDate = entry["Prediction Date"]; // Assuming it's already in DD/MM/YYYY, HH:MM:SS
+      return formattedDate.startsWith(predictionDate); // Match date prefix
     });
   }
 

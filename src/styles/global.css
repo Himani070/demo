@@ -202,7 +202,7 @@ img{
 }
 
 .vehicle-input,
-.timestamp-input {
+.date-input {
     border: 1px solid #3c3b3b; /* Example solid border */
     border-radius: 10px; /* Rounded corners */
     padding: 8px;
@@ -211,7 +211,7 @@ img{
 }
 
 .vehicle-input::placeholder,
-.timestamp-input::placeholder {
+.date-input::placeholder {
     color: #aaa; /* Optional: Change placeholder color */
     opacity: 1; /* Ensures full visibility */
 }
