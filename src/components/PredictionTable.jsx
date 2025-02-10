@@ -18,6 +18,7 @@ const PredictionTable = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    setCurrentPage(1);
   };
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const PredictionTable = () => {
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const currentData = predictions.slice(startIndex, endIndex);
+  
 
   return (
     <div className="form-section">
