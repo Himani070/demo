@@ -1,30 +1,26 @@
 import React, { useState } from "react";
-import "../styles/global.css";
 import axios from "axios";
 
 function PredictResults() {
   const [vehicleId, setVehicleId] = useState("");
-  const [timestamp, setTimestamp] = useState("");
+  const [predictionDate, setPredictionDate] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const requestData = { vehicleId, timestamp };
 
-    try {
-      const response = await axios.post("http://localhost:5000/predict", requestData);
-      console.log("Prediction submitted:", response.data);
-      alert("Prediction request submitted successfully!");
-      setVehicleId("");
-      setTimestamp("");
-    } catch (error) {
-      console.error("Error submitting prediction:", error);
-      alert("Failed to submit prediction.");
-    }
+    // Save filter values to localStorage
+    localStorage.setItem("vehicleId", vehicleId);
+    localStorage.setItem("predictionDate", predictionDate);
+
+    // Notify the table to re-fetch data (can use event dispatch or state management)
+    window.dispatchEvent(new Event("storage"));
+
+    alert("Filtering data...");
   };
 
   return (
     <div className="form-section">
-      <h3>Predict Results</h3>
+      <h3>Filter Predictions</h3>
       <form onSubmit={handleSubmit} className="form-row">
         <label>Vehicle ID</label>
         <input
@@ -34,19 +30,18 @@ function PredictResults() {
           value={vehicleId}
           onChange={(e) => setVehicleId(e.target.value)}
           required
-        />&nbsp;
+        />
 
-        <label>Timestamp</label>
+        <label>Prediction Date</label>
         <input
-          type="text"
-          className="timestamp-input"
-          placeholder="DD/MM/YYYY, HH:MM:SS"
-          value={timestamp}
-          onChange={(e) => setTimestamp(e.target.value)}
+          type="date"
+          className="date-input"
+          value={predictionDate}
+          onChange={(e) => setPredictionDate(e.target.value)}
           required
         />
 
-        <button type="submit" className="submit-button">Submit</button>
+        <button type="submit" className="submit-button">Filter</button>
       </form>
     </div>
   );

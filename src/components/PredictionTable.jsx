@@ -2,20 +2,34 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const PredictionTable = () => {
-  const [predictions, setPredictions] = useState([]); // Stores all data
-  const [currentPage, setCurrentPage] = useState(1);   // Current page number
-  const [rowsPerPage, setRowsPerPage] = useState(5);     // Default rows per page
+  const [predictions, setPredictions] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const fetchFilteredData = async () => {
+    const vehicleId = localStorage.getItem("vehicleId") || "";
+    const predictionDate = localStorage.getItem("predictionDate") || "";
+
+    try {
+      const response = await axios.get("http://localhost:5000/api/predictions", {
+        params: { vehicleId, predictionDate }
+      });
+      setPredictions(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
-    // Ensure your API endpoint matches what you set up in Express
-    axios
-      .get("http://localhost:5000/api/predictions")
-      .then((response) => {
-        setPredictions(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    fetchFilteredData(); // Fetch on load
+
+    // Listen for filter changes from PredictResults
+    const handleStorageChange = () => fetchFilteredData();
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   // Pagination logic
@@ -24,19 +38,6 @@ const PredictionTable = () => {
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const currentData = predictions.slice(startIndex, endIndex);
-
-  // Handlers for pagination
-  const goToNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const goToPreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
 
   return (
     <div className="form-section">
@@ -51,41 +52,46 @@ const PredictionTable = () => {
           </tr>
         </thead>
         <tbody>
-          {currentData.map((item, index) => (
-            <tr key={index}>
-               <td>{item["Vehicle ID"]}</td>
-              <td>{item["Prediction Date"]}</td>
-              <td>{item["Load Function Completed On"]}</td>
-              <td>{item["Load Status"]}</td>
+          {currentData.length > 0 ? (
+            currentData.map((item, index) => (
+              <tr key={index}>
+                <td>{item["Vehicle ID"]}</td>
+                <td>{item["Prediction Date"]}</td>
+                <td>{item["Load Function Completed On"]}</td>
+                <td>{item["Load Status"]}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4" style={{ textAlign: "center" }}>No records found</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
-       <div className="table-info">
+      {/* Pagination Controls */}
+      <div className="table-info">
         <div className="records-info">
           Rows per page:{" "}
           <select
             value={rowsPerPage}
             onChange={(e) => {
               setRowsPerPage(Number(e.target.value));
-              setCurrentPage(1); // Reset to first page when changing rows per page
+              setCurrentPage(1);
             }}
           >
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
           </select>
-          <span>
-            Total: <span id="totalRecords">{totalRecords}</span> records
-          </span>
+          <span>Total: {totalRecords} records</span>
         </div>
         <div className="pagination">
-          <button className="prev" onClick={goToPreviousPage} disabled={currentPage === 1}>
+          <button className="prev" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
             &#10094;
           </button>
           <span>{currentPage}</span>
-          <button className="next" onClick={goToNextPage} disabled={currentPage === totalPages}>
+          <button className="next" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
             &#10095;
           </button>
         </div>

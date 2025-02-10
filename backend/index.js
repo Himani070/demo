@@ -8,19 +8,23 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
- const workbook = xlsx.readFile("data.xlsx");
+const workbook = xlsx.readFile("data.xlsx");
 const sheetName = workbook.SheetNames[0];  
 const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
- app.get("/api/predictions", (req, res) => {
-  const { vehicleId, date } = req.query;
+app.get("/api/predictions", (req, res) => {
+  let { vehicleId, predictionDate } = req.query;
   let filteredData = data;
 
   if (vehicleId) {
-     filteredData = filteredData.filter(entry => entry["Vehicle ID"] == vehicleId);
+    filteredData = filteredData.filter(entry => entry["Vehicle ID"] == vehicleId);
   }
-  if (date) {
-    filteredData = filteredData.filter(entry => entry["Prediction Date"] == date);
+
+  if (predictionDate) {
+    filteredData = filteredData.filter(entry => {
+      const entryDate = new Date(entry["Prediction Date"]).toISOString().split("T")[0];
+      return entryDate === predictionDate;
+    });
   }
 
   res.json(filteredData);
