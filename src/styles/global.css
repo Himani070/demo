@@ -1,0 +1,405 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+body, h2, h3, p, ul, li, table {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    font-size: 14px;
+    
+    color:black;
+}
+
+/* Main Layout */
+html, body {
+    height: 100%;
+    overflow: hidden;
+    font-style: normal;
+    background-color: white;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #d2d6da;
+    color: rgb(13, 13, 13);
+    
+}
+
+
+.navbar .left {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.navbar .right {
+    font-size: 15px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+    height: 100%;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow */
+    overflow-y:hidden
+}
+
+.sidebar-header h2{
+    font-family: 'Poppins', sans-serif; /* Choose the best fit */
+    font-size: 10px; /* Adjust as needed */
+    font-weight: 300; /* Light/Thin weight */
+    letter-spacing: 2px; /* Spacing between letters */
+    color: #9f9e9e; /* Soft gray */
+    text-transform: uppercase; /* Ensures all caps */
+    font-weight: bold;
+    margin-left: 8px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+}
+
+.sidebar a{
+    text-decoration: none;
+    color: black;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 14px;
+    gap:5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+img{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.sidebar-footer{
+    margin-top: 300px;
+    margin-bottom: 50px;
+    margin-left: 5px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    width: 100%;
+    padding-top: 13px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 5px; /* Set a fixed height for the button */
+    padding-left: 10px;
+    width: 200px;
+}
+
+
+/* Content Area */
+.content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.home-container {
+    flex: 1;
+    padding: 20px  20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-top: -30px;
+}
+
+.form-section {
+    flex: 0 1 auto;
+    background-color: white;
+    border: 1px solid #e0e0e0; /* Softer border color */
+    padding: 20px;
+    border-radius: 12px; /* Rounded corners */
+    margin-bottom: 10px;
+    margin-top: 2px;
+    margin-left:-15px;
+    width: 950px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    gap:10px;
+    
+}
+
+.form-section h3{
+    font-size: 16px;
+    border-bottom: solid 1px #e1e1e1;
+    border-width:thin ;
+    padding-bottom: 10px;
+    font-family: "Calibri";
+    letter-spacing: 0.1px;
+}
+
+.form-row{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 15px;
+    margin-bottom : 5px;
+    gap:10px
+}
+
+
+
+.submit-button {
+    padding: 5px 10px;
+    background-color: #043569;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-left: 30px;
+    height:30px;
+    width:70px;
+}
+
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+.vehicle-input,
+.timestamp-input {
+    border: 1px solid #3c3b3b; /* Example solid border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 8px;
+    outline: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-input::placeholder,
+.timestamp-input::placeholder {
+    color: #aaa; /* Optional: Change placeholder color */
+    opacity: 1; /* Ensures full visibility */
+}
+
+
+.status-container{
+    flex: 0 1 auto;
+    background-color: white;
+    border: 1px solid #e0e0e0; /* Softer border color */
+    padding: 20px;
+    border-radius: 12px; /* Rounded corners */
+    margin-bottom: 10px;
+    margin-top: 2px;
+    width: 700px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    background-color: white;
+    border: 1px solid #dee2e6;
+}
+
+table, th, td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+    font-weight: normal;
+}
+
+th {
+    font-size: 12px;
+    color: #495057;
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border-bottom: 2px solid #dee2e6;
+}
+
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+tbody, tr, td{
+    color: black;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 6px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.form-section td{
+    color:rgb(97, 96, 96)
+
+}
+
+th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+th:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+  .table-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #959292;
+    margin-top: 8px;
+    padding: 8px;
+}
+
+.table-info select {
+    padding: 1px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 10px;
+    color: #8f8d8d;
+    height: 15px;
+    width: 37px;
+}
+
+.tload-status {
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 10px;
+    color: white;
+    font-weight: normal;
+    font-size: 11px;
+}
+
+.tload-status.no-load { background-color: #71AD45; padding: 5px 8px; border-radius: 10px; font-size: 12px; height:17px; width:48px}
+.tload-status.part-load { background-color: #E5A500; padding: 5px 8px; border-radius: 10px; font-size: 12px; }
+.tload-status.full-load { background-color: #E65300; padding: 5px 8px; border-radius: 10px; font-size: 12px; }
+
+/* Pagination */
+.pagination {
+    display: flex;
+    align-items: center;
+    
+}
+
+/* Active Page Number */
+.pagination span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 8px;
+    background-color: #0d355b; /* Dark Blue */
+    color: white;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+/* Pagination Buttons (Arrows) */
+.pagination button {
+    background-color: whitesmoke; /* White background */
+    border: 1px  #ddd; /* Light gray border */
+    cursor: pointer;    
+    border-radius: 8px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    box-shadow: #959292;
+    color: #6f6d6d; /* Dark gray for arrows */
+    box-shadow: 3px 3px 3px rgba(187, 186, 186, 0.15); /* Soft shadow */
+    
+    padding: 0; /* Remove default button padding */
+}
+
+/* Hover Effect */
+.pagination button:hover {
+    background-color: #f2f2f2; /* Light gray on hover */
+}
+
+.status-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: left;
+    gap: 30px;
+    width:925px
+}
+
+.load-legend {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.load-legend .status-label {
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 10px;
+    color: white;
+    font-weight: normal;
+    font-family: 12px;
+}
+
+.status-label.no-load {
+    background-color: #71AD45;
+    font-size: 12px;
+    height:17px; width:48px
+}
+
+.status-label.part-load {
+    background-color: #E5A500;
+    font-size: 12px;
+}
+
+.status-label.full-load {
+    background-color: #E65300;
+    font-size: 12px;
+}
+
+.legend-text {
+    font-size: 12px;
+    color: #666;
+}
+
