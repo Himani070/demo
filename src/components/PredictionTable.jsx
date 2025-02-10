@@ -6,24 +6,14 @@ const PredictionTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const fetchData = async () => {
-    const vehicleId = localStorage.getItem("vehicleId") || "";
-    const predictionDate = localStorage.getItem("predictionDate") || "";
-
-    try {
-      const response = await axios.get("http://localhost:5000/api/predictions", {
-        params: { vehicleId, predictionDate }
-      });
-      setPredictions(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchData(); // Fetch on page load
+    // Clear stored filters on refresh to reset to full table
+    localStorage.removeItem("vehicleId");
+    localStorage.removeItem("predictionDate");
 
-    // Listen for filter changes from PredictResults
+    fetchData();
+
+    // Listen for storage changes
     const handleStorageChange = () => fetchData();
     window.addEventListener("storage", handleStorageChange);
 
@@ -32,12 +22,29 @@ const PredictionTable = () => {
     };
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/predictions");
+      setPredictions(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   // Pagination logic
   const totalRecords = predictions.length;
   const totalPages = Math.ceil(totalRecords / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const currentData = predictions.slice(startIndex, endIndex);
+
+  // Function to get load status class
+  const getLoadStatusClass = (status) => {
+    if (status === "No Load") return "tload-status no-load";
+    if (status === "Part Load") return "tload-status part-load";
+    if (status === "Full Load") return "tload-status full-load";
+    return "tload-status"; // Default class
+  };
 
   return (
     <div className="form-section">
@@ -58,7 +65,7 @@ const PredictionTable = () => {
                 <td>{item["Vehicle ID"]}</td>
                 <td>{item["Prediction Date"]}</td>
                 <td>{item["Load Function Completed On"]}</td>
-                <td>{item["Load Status"]}</td>
+                <td className={getLoadStatusClass(item["Load Status"])}>{item["Load Status"]}</td>
               </tr>
             ))
           ) : (
@@ -83,7 +90,7 @@ const PredictionTable = () => {
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
-          </select>
+          </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span>Total: {totalRecords} records</span>
         </div>
         <div className="pagination">

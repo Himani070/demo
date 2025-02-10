@@ -48,7 +48,7 @@ function PredictResults() {
           required
         />
 
-        <button type="submit" className="submit-button">Filter</button>
+        <button type="submit" className="submit-button">Submit</button>
       </form>
     </div>
   );

@@ -154,7 +154,7 @@ img{
     border: 1px solid #e0e0e0; /* Softer border color */
     padding: 20px;
     border-radius: 12px; /* Rounded corners */
-    margin-bottom: 10px;
+    /* margin-bottom: 6px; */
     margin-top: 2px;
     margin-left:-15px;
     width: 950px;
@@ -221,7 +221,7 @@ img{
     flex: 0 1 auto;
     background-color: white;
     border: 1px solid #e0e0e0; /* Softer border color */
-    padding: 20px;
+    padding: 10px;
     border-radius: 12px; /* Rounded corners */
     margin-bottom: 10px;
     margin-top: 2px;
@@ -262,9 +262,11 @@ tbody, tr, td{
     color: black;
     font-size: 12px;
     font-weight: normal;
-    padding: 6px;
+    padding: 8px ;
     text-align: left;
     border-bottom: 1px solid #eee;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .form-section td{
@@ -301,6 +303,7 @@ th:last-child {
     width: 37px;
 }
 
+
 .tload-status {
     display: inline-block;
     padding: 5px 8px;
@@ -308,11 +311,13 @@ th:last-child {
     color: white;
     font-weight: normal;
     font-size: 11px;
+    padding:5px;
+    align-content: center;
 }
 
-.tload-status.no-load { background-color: #71AD45; padding: 5px 8px; border-radius: 10px; font-size: 12px; height:17px; width:48px}
-.tload-status.part-load { background-color: #E5A500; padding: 5px 8px; border-radius: 10px; font-size: 12px; }
-.tload-status.full-load { background-color: #E65300; padding: 5px 8px; border-radius: 10px; font-size: 12px; }
+.tload-status.no-load { background-color: #71AD45; padding: 5px 8px; border-radius: 10px; font-size: 12px; height:17px; width:48px; color:white}
+.tload-status.part-load { background-color: #E5A500; padding: 5px 8px; border-radius: 10px; font-size: 12px; color:white }
+.tload-status.full-load { background-color: #E65300; padding: 5px 8px; border-radius: 10px; font-size: 12px; color:white }
 
 /* Pagination */
 .pagination {
@@ -360,11 +365,11 @@ th:last-child {
 }
 
 .status-container {
-    margin-top: 20px;
+    align-content: center;
     display: flex;
     justify-content: left;
-    gap: 30px;
-    width:925px
+    gap: 50px;
+    width:925px;
 }
 
 .load-legend {
