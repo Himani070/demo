@@ -3,12 +3,13 @@ import axios from "axios";
 
 const PredictionTable = () => {
   const [predictions, setPredictions] = useState([]); // Stores all data
-  const [currentPage, setCurrentPage] = useState(1); // Stores current page number
-  const [rowsPerPage, setRowsPerPage] = useState(5); // Default rows per page
+  const [currentPage, setCurrentPage] = useState(1);   // Current page number
+  const [rowsPerPage, setRowsPerPage] = useState(5);     // Default rows per page
 
   useEffect(() => {
+    // Ensure your API endpoint matches what you set up in Express
     axios
-      .get("http://localhost:5000/api/..")
+      .get("http://localhost:5000/api/predictions")
       .then((response) => {
         setPredictions(response.data);
       })
@@ -52,17 +53,16 @@ const PredictionTable = () => {
         <tbody>
           {currentData.map((item, index) => (
             <tr key={index}>
-              <td>{item.VehicleID}</td>
-              <td>{item.PredictionDate}</td>
-              <td>{item.LoadFunctionCompletedOn}</td>
-              <td>{item.LoadStatus}</td>
+               <td>{item["Vehicle ID"]}</td>
+              <td>{item["Prediction Date"]}</td>
+              <td>{item["Load Function Completed On"]}</td>
+              <td>{item["Load Status"]}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Pagination Controls */}
-      <div className="table-info">
+       <div className="table-info">
         <div className="records-info">
           Rows per page:{" "}
           <select
