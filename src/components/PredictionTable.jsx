@@ -53,8 +53,7 @@ const PredictionTable = () => {
         <tbody>
           {currentData.map((item, index) => (
             <tr key={index}>
-              {/* Use bracket notation to access keys with spaces */}
-              <td>{item["Vehicle ID"]}</td>
+               <td>{item["Vehicle ID"]}</td>
               <td>{item["Prediction Date"]}</td>
               <td>{item["Load Function Completed On"]}</td>
               <td>{item["Load Status"]}</td>
@@ -63,8 +62,7 @@ const PredictionTable = () => {
         </tbody>
       </table>
 
-      {/* Pagination Controls */}
-      <div className="table-info">
+       <div className="table-info">
         <div className="records-info">
           Rows per page:{" "}
           <select
