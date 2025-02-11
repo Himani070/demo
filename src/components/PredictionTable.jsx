@@ -3,8 +3,16 @@ import axios from "axios";
 
 const PredictionTable = () => {
   const [predictions, setPredictions] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  useEffect(() => {
+    fetchData();
+    const handleStorageChange = () => fetchData();
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   const fetchData = async () => {
     const vehicleId = localStorage.getItem("vehicleId") || "";
@@ -12,45 +20,34 @@ const PredictionTable = () => {
 
     try {
       const response = await axios.get("http://localhost:5000/api/predictions", {
-        params: { vehicleId, predictionDate }
+        params: { vehicleId, predictionDate },
       });
       setPredictions(response.data);
+      setFilteredData(response.data);
+      setCurrentPage(1); // Reset to first page when new data loads
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-    setCurrentPage(1);
   };
 
-  useEffect(() => {
-    fetchData(); // Fetch on page load
-
-    // Listen for filter changes from PredictResults
-    const handleStorageChange = () => fetchData();
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+  // Pagination logic (now in frontend)
+  const totalRecords = filteredData.length;
+  const totalPages = Math.ceil(totalRecords / rowsPerPage);
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   const getLoadStatusClass = (status) => {
     if (status === "No Load") return "tload-status no-load";
     if (status === "Part Load") return "tload-status part-load";
     if (status === "Full Load") return "tload-status full-load";
-    return "tload-status"; // Default class
+    return "tload-status";
   };
 
-  // Pagination logic
-  const totalRecords = predictions.length;
-  const totalPages = Math.ceil(totalRecords / rowsPerPage);
-  const startIndex = (currentPage - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const currentData = predictions.slice(startIndex, endIndex);
-  
-
   return (
-    <div className="form-section">
+    <div className="table-form-section">
       <h3>Prediction Table</h3>
+      <div className="table-data">
       <table border="1">
         <thead>
           <tr>
@@ -64,10 +61,10 @@ const PredictionTable = () => {
           {currentData.length > 0 ? (
             currentData.map((item, index) => (
               <tr key={index}>
-                <td>{item["Vehicle ID"]}</td>
-                <td>{item["Prediction Date"]}</td>
-                <td>{item["Load Function Completed On"]}</td>
-                <td className={getLoadStatusClass(item["Load Status"])}>{item["Load Status"]}</td>
+                <td>{item.vehicle_id}</td>
+                <td>{item.prediction_date}</td>
+                <td>{item.load_function_completed_on}</td>
+                <td className={getLoadStatusClass(item.load_status)}>{item.load_status}</td>
               </tr>
             ))
           ) : (
@@ -77,6 +74,7 @@ const PredictionTable = () => {
           )}
         </tbody>
       </table>
+      </div>
 
       {/* Pagination Controls */}
       <div className="table-info">
@@ -99,7 +97,7 @@ const PredictionTable = () => {
           <button className="prev" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
             &#10094;
           </button>
-          <span>{currentPage}</span>
+          <span>{currentPage} </span>
           <button className="next" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
             &#10095;
           </button>
