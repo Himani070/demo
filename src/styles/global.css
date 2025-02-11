@@ -230,7 +230,6 @@ img{
     width:70px;
 }
 
-
 .submit-button:hover {
     background-color: #0056b3;
 }
@@ -304,6 +303,7 @@ tbody, tr, td{
     margin-bottom: 4px;
     overflow-y: auto;   
 }
+
 
 .form-section td{
     color:rgb(97, 96, 96)
